@@ -16,7 +16,7 @@ def read_data(dump_file):
     f.close()
     return json_data[0]
 
-def parse_data(entries):
+def parse_data(entries,na_value):
     """
     Inputs: 
         - entries: A list of dictionaries containing one breached sample each. The keys will be used as columns to parse the data 
@@ -28,9 +28,11 @@ def parse_data(entries):
     entries_series = [pd.Series(entry) for entry in entries]
     parsed_table = pd.DataFrame(entries_series)
     parsed_table.replace(r'^\s*$', np.nan, regex=True,inplace=True)
-    parsed_table.fillna("NAN",inplace=True)
-    print(colored(parsed_table.head(),"blue"))
-    return parsed_table
+    parsed_table.fillna(na_value,inplace=True)
+    filtered_table = parsed_table[ (parsed_table["password"] != na_value) | (parsed_table["hashed_password"] != na_value) ]
+
+    print(colored(filtered_table.head(),"blue"))
+    return filtered_table
 
 def save_table(parsed_table,save_path):
     """
@@ -59,11 +61,11 @@ if __name__ == '__main__':
     num_entries = json_data["total"]
     dump_status = json_data["success"]
     entries = json_data["entries"]
-    na_value = "NA"
+    na_value = "NAN"
     if dump_status:
         print(colored(f"[+] The fetch was successful. {num_entries} potential breached credentials found.","green"))
         # parse the data into an ordered table
-        parsed_table = parse_data(entries=entries)
+        parsed_table = parse_data(entries=entries,na_value=na_value)
         # save the data to excel
         save_table(parsed_table=parsed_table,save_path=export_file)
     else:
