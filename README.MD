@@ -1,5 +1,5 @@
 # Dehashed Dump Processing
-This python script was made in the intent to parse breached data obtained via de [DEHASHED](https://www.dehashed.com) API. 
+This python script was made in the intent to parse breached data obtained via the [DEHASHED](https://www.dehashed.com) API. 
 It takes the dump json file obtained from DEHASHED, parses it into an ordered table, fills the missing values with "NAN", and exports it to an excel book format.
 # Usage:
 In order to install the necesary dependencies run:
