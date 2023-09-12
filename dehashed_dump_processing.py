@@ -28,6 +28,7 @@ def parse_data(entries):
     entries_series = [pd.Series(entry) for entry in entries]
     parsed_table = pd.DataFrame(entries_series)
     parsed_table.replace(r'^\s*$', np.nan, regex=True,inplace=True)
+    parsed_table.fillna("NAN",inplace=True)
     print(colored(parsed_table.head(),"blue"))
     return parsed_table
 
