@@ -50,9 +50,13 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("-i","--input_file",help="Name json file dumped using the DEHASHED API (default: \"breached_passwords.json\")",type=str,default="breached_passwords.json",nargs="?")
     parser.add_argument("-o","--output_file",help="Name of excel book the data will be exported to (default: \"dehashed_dump.xlsx\")",type=str,default="dehashed_dump.xlsx",nargs="?")
+    parser.add_argument("-n","--null_value",help="Specify a different null value to fill the blank spaces (default: np.nan)",type=str,default=np.nan,nargs="?")
+
     args: Namespace = parser.parse_args()
     dump_file = args.input_file
     export_file = args.output_file
+    na_value = args.null_value
+
     
     # load the json data as a python dictionary
     json_data = json.loads(read_data(dump_file=dump_file))
@@ -61,7 +65,6 @@ if __name__ == '__main__':
     num_entries = json_data["total"]
     dump_status = json_data["success"]
     entries = json_data["entries"]
-    na_value = "NAN"
     if dump_status:
         print(colored(f"[+] The fetch was successful. {num_entries} potential breached credentials found.","green"))
         # parse the data into an ordered table

@@ -1,4 +1,4 @@
 Notes.MD
-breached_passwords.json
+*.json
 venv
-dehashed_dump.xlsx
+*.xlsx
