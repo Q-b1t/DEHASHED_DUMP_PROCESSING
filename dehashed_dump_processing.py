@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 from termcolor import colored
 from argparse import ArgumentParser,Namespace
+import os
+import matplotlib.pyplot as plt
 
 def read_data(dump_file):
     """
@@ -43,7 +45,22 @@ def save_table(parsed_table,save_path):
     parsed_table.to_excel(save_path, index=False)
     print(colored(f"[+] Breached data saved to {save_path}","green"))
 
+def generate_insights(parsed_table):
+    """
+    Generates graphs that are useful for reporting purposes
+    Inputs:
+        - parsed_table: A processed pandas dataframe.
+    """
+    # bar graph of all leaks and databases
+    database_counts = parsed_table["database_name"].value_counts()
+    n_bars = 15 if len(database_counts) >= 15 else len(database_counts)
+    database_counts = database_counts.nlargest(n = n_bars)
 
+    plt.figure(figsize=(15,10))
+    plt.barh(database_counts.keys(),database_counts.values)
+    plt.yticks(rotation=45,fontsize=10)
+    plt.title(f"Top {n_bars} leak databanks with most credentials related to the company.")
+    plt.savefig("leak_databases.png")
 
 if __name__ == '__main__':
     # instance command line parser
@@ -51,11 +68,13 @@ if __name__ == '__main__':
     parser.add_argument("-i","--input_file",help="Name json file dumped using the DEHASHED API (default: \"breached_passwords.json\")",type=str,default="breached_passwords.json",nargs="?")
     parser.add_argument("-o","--output_file",help="Name of excel book the data will be exported to (default: \"dehashed_dump.xlsx\")",type=str,default="dehashed_dump.xlsx",nargs="?")
     parser.add_argument("-n","--null_value",help="Specify a different null value to fill the blank spaces (default: np.nan)",type=str,default=np.nan,nargs="?")
+    parser.add_argument("-g","--insights",help="Whether to generate graphs used in reports (default: np.nan)",type=bool,default=False,nargs="?")
 
     args: Namespace = parser.parse_args()
     dump_file = args.input_file
     export_file = args.output_file
     na_value = args.null_value
+    insights = args.insights
 
     
     # load the json data as a python dictionary
@@ -71,6 +90,8 @@ if __name__ == '__main__':
         parsed_table = parse_data(entries=entries,na_value=na_value)
         # save the data to excel
         save_table(parsed_table=parsed_table,save_path=export_file)
+        # if true, generate the insights
+        generate_insights(parsed_table=parsed_table)
     else:
         print(colored(f"[-] The dump was not successful","red"))
     
