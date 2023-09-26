@@ -3,3 +3,5 @@ Notes.MD
 venv
 *.xlsx
 *.png
+test.py
+conf_test.cfg
