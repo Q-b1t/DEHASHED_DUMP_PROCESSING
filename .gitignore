@@ -5,3 +5,4 @@ venv
 *.png
 test.py
 conf_test.cfg
+*.csv

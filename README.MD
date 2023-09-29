@@ -27,11 +27,19 @@ Finally, the script emulates a CLI. Therefore, some parameters can be changed us
 ```
 python3 dehashed_dump_processing.py --help
 ```
+## Examples:
+```
+python .\dehashed_dump_processing.py -c .\conf_test.cfg -d awesome_enterprise.eu -o leaks_a -f csv -v True
+```
 
-#### Tags
-- --null_value: This tag can be set up in order to fill the table's empty values with a certain value.
-- --insights: This flag can be set to ```True``` in order to generate a graph to use in reports.
-- --config_file: This flag can be set to change the default configuration file (```conf.cfg```).
-- --size: This flag can set to change the number of requests to make (View [Dehashed API's documentation](https://www.dehashed.com/docs) for more details).
-- -- pages: This flag can be set to limit the pages to display the information (View [Dehashed API's documentation](https://www.dehashed.com/docs) for more details).
-- --domain: This flag **needs to be set up to specify the domain you want to search for**.
+```
+python .\dehashed_dump_processing.py -d awesome_enterprise.eu -o credenciales
+```
+
+```
+python .\dehashed_dump_processing.py -d awesome_enterprise.eu -f csv -s 20000 -p 2
+```
+
+```
+python .\dehashed_dump_processing.py -d awesome_enterprise.eu -f csv -n null
+```
