@@ -99,7 +99,7 @@ if __name__ == '__main__':
     parser.add_argument("-n","--null_value",help="Specify a different null value to fill the blank spaces (default: np.nan)",type=str,default=np.nan,nargs="?")
     parser.add_argument("-c","--config_file",help="Configuration file contianing the API keys (default: \"conf.cfg\")",type=str,default="conf.cfg",nargs="?")
     parser.add_argument("-s","--size",help="The number of requests to be made in the Dehashed API (view API documentation)",type=int,default=1000,nargs="?")
-    parser.add_argument("-p","--pages",help="Configuration file contianing the API keys (default: \"conf.cfg\")",type=int,default=1,nargs="?")
+    parser.add_argument("-p","--pages",help="The threshold in the number of requests with respect to the size Dehashed API (view API documentation)",type=int,default=1,nargs="?")
     parser.add_argument("-d","--domain",help="The mail domain to make searches on (default: \"dehashed.com\")",type=str,default="dehashed.com",nargs="?")
     parser.add_argument("-v","--verbose",help="Whether to output information on the script's progress in the console",type=bool,default=False,nargs="?")
     parser.add_argument("-f","--output_format",help="It can be either \"excel\" or \"csv\" (default: \"excel\")",type=str,default="excel",nargs="?")
